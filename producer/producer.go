@@ -32,6 +32,14 @@ func MainProducer() {
 			} else {
 				fmt.Println("Only specify create###Account Name")
 			}
+		case "balance":
+			if len(args) == 2 {
+				accId := args[1]
+				event := event.NewBalanceEvent(accId)
+				k.SendMsg(kafka, event)
+			} else {
+				fmt.Println("Only specify balance###Account ID")
+			}
 		case "deposit":
 			if len(args) == 3 {
 				accId := args[1]
@@ -64,7 +72,7 @@ func MainProducer() {
 				fmt.Println("Only specify transfer###Source ID###Target ID####amount")
 			}
 		default:
-			fmt.Printf("Unknown command %s, only: create, deposit, withdraw, transfer\n", cmd)
+			fmt.Printf("Unknown command %s, only: create, deposit, withdraw, transfer, balance\n", cmd)
 		}
 
 		if err != nil {

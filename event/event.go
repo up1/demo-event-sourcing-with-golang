@@ -14,6 +14,10 @@ type CreateEvent struct {
 	AccName string
 }
 
+type BalanceEvent struct {
+	Event
+}
+
 type DepositEvent struct {
 	Event
 	Amount int
@@ -37,6 +41,13 @@ func NewCreateAccountEvent(name string) CreateEvent {
 	event.Type = "CreateEvent"
 	event.AccId = uuid.NewV4().String()
 	event.AccName = name
+	return *event
+}
+
+func NewBalanceEvent(id string) BalanceEvent {
+	event := new(BalanceEvent)
+	event.Type = "BalanceEvent"
+	event.AccId = id
 	return *event
 }
 

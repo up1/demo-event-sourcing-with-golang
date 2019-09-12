@@ -13,6 +13,17 @@ func (e CreateEvent) Process() (*bank.BankAccount, error) {
 	})
 }
 
+func (e BalanceEvent) Process() (*bank.BankAccount, error) {
+	if acc, err := bank.FetchAccount(e.AccId); err != nil {
+		return nil, err
+	} else {
+		if acc == nil {
+			return nil, errors.New("Account not found")
+		}
+		return acc, nil
+	}
+}
+
 func (e DepositEvent) Process() (*bank.BankAccount, error) {
 	if acc, err := bank.FetchAccount(e.AccId); err != nil {
 		return nil, err

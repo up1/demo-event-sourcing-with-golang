@@ -15,7 +15,7 @@ func main() {
 
 	flag.Parse()
 
-	fmt.Printf("Welcome to Banku service: %s\n\n", *act)
+	fmt.Printf("Welcome to Banking service: %s\n\n", *act)
 
 	switch *act {
 	case "producer":

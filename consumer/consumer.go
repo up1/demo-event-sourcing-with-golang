@@ -56,6 +56,11 @@ func consumeEvents(consumer sarama.PartitionConsumer) {
 					if err = json.Unmarshal(msgVal, &_event); err == nil {
 						bankAccount, err = _event.Process()
 					}
+				case "BalanceEvent":
+					_event := new(event.BalanceEvent)
+					if err = json.Unmarshal(msgVal, &_event); err == nil {
+						bankAccount, err = _event.Process()
+					}
 				case "DepositEvent":
 					_event := new(event.DepositEvent)
 					if err = json.Unmarshal(msgVal, &_event); err == nil {
