@@ -1,4 +1,4 @@
-# demo-event-sourcing-with-golang
+# Demo :: Event sourcing with golang
 
 ## Step 1 :: Start [Kafka server](https://kafka.apache.org/quickstart)
 
