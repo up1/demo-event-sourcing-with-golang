@@ -1,4 +1,6 @@
 # Demo :: Event sourcing with golang
+* Apache Kafka
+* Kafka client for go :: [sarama](https://github.com/Shopify/sarama)
 
 ## Step 1 :: Start [Kafka server](https://kafka.apache.org/quickstart)
 
