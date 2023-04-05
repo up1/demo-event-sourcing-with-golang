@@ -56,7 +56,7 @@ Message: {Event:{AccId:201258f5-cd98-46a3-86fa-96379b096c4c Type:CreateEvent} Ac
 ->transfer###3128d758-580c-4e0a-85e8-192db1ef954a###201258f5-cd98-46a3-86fa-96379b096c4c####50
 ```
 
-## Step 4 :: Start producer
+## Step 4 :: Start consumer
 ```
 $go run cmd/main.go --act consumer
 
