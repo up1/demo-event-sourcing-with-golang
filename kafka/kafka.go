@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	Brokers = []string{"127.0.0.1:9092"}
+	Brokers = []string{"localhost:29092"}
 	Topic   = "bank-transactions"
 )
 
@@ -34,7 +34,9 @@ func NewKafkaSyncProducer() sarama.SyncProducer {
 }
 
 func NewKafkaConsumer() sarama.Consumer {
-	consumer, err := sarama.NewConsumer(Brokers, newKafkaConfiguration())
+	config := sarama.NewConfig()
+    config.Consumer.Return.Errors = true
+	consumer, err := sarama.NewConsumer(Brokers, config)
 
 	if err != nil {
 		fmt.Printf("Kafka error: %s\n", err)

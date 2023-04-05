@@ -1,18 +1,37 @@
 # demo-event-sourcing-with-golang
 
-### Step 1 :: Start [Kafka server](https://kafka.apache.org/quickstart)
+## Step 1 :: Start [Kafka server](https://kafka.apache.org/quickstart)
 
+Start from manual process
 ```
 $bin/zookeeper-server-start.sh config/zookeeper.properties
 $bin/kafka-server-start.sh config/server.properties
 ```
 
-### Step 2 :: Start [Redis server](https://redis.io/download)
+Start from Docker compose
+```
+$docker compose up -d zookeeper
+$docker compose up -d kafka
+$docker compose up -d kafka-user-interface
+$docker compose ps
+$docker compose logs --follow
+```
+
+
+## Step 2 :: Start [Redis server](https://redis.io/download)
+
+Start from Docker
 ```
 $docker container run -d -p 6379:6379 redis:alpine
 ```
 
-### Step 3 :: Start producer
+Start from Docker compose
+```
+$docker compose up -d redis
+$docker compose ps
+```
+
+## Step 3 :: Start producer
 ```
 $go run cmd/main.go --act producer
 
@@ -35,7 +54,7 @@ Message: {Event:{AccId:201258f5-cd98-46a3-86fa-96379b096c4c Type:CreateEvent} Ac
 ->transfer###3128d758-580c-4e0a-85e8-192db1ef954a###201258f5-cd98-46a3-86fa-96379b096c4c####50
 ```
 
-### Step 4 :: Start producer
+## Step 4 :: Start producer
 ```
 $go run cmd/main.go --act consumer
 

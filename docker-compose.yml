@@ -1,0 +1,50 @@
+version: '3'
+networks: 
+    network-kafka: 
+services:
+    redis:
+      image: redis:alpine
+      ports:
+        - '6379:6379'
+      networks:
+        - network-kafka
+
+    zookeeper:
+      image: 'bitnami/zookeeper:latest'
+      ports:
+        - '2181:2181'
+      networks:
+        - network-kafka
+      environment:
+        - ALLOW_ANONYMOUS_LOGIN=yes
+
+    kafka:
+      image: 'bitnami/kafka:latest'
+      ports:
+        - '9092:9092'
+        - '29092:29092'
+      networks:
+        - network-kafka
+      environment:
+        - KAFKA_BROKER_ID=1
+        - KAFKA_LISTENERS=EXTERNAL_SAME_HOST://:29092,INTERNAL://:9092
+        - KAFKA_ADVERTISED_LISTENERS=INTERNAL://kafka:9092,EXTERNAL_SAME_HOST://localhost:29092
+        - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=INTERNAL:PLAINTEXT,EXTERNAL_SAME_HOST:PLAINTEXT
+        - KAFKA_INTER_BROKER_LISTENER_NAME=INTERNAL
+        - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+        - ALLOW_PLAINTEXT_LISTENER=yes
+      depends_on:
+        - zookeeper
+
+    kafka-user-interface:
+      image: provectuslabs/kafka-ui
+      container_name: kafka-user-interface
+      ports:
+        - "8085:8080"
+      networks:
+        - network-kafka
+      restart: always
+      environment:
+        - KAFKA_CLUSTERS_0_NAME=local
+        - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
+        - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:2181
