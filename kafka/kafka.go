@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	Brokers = []string{"localhost:29092"}
+	Brokers = []string{"kafka:29092"}
 	Topic   = "bank-transactions"
 )
 
@@ -35,8 +35,21 @@ func NewKafkaSyncProducer() sarama.SyncProducer {
 
 func NewKafkaConsumer() sarama.Consumer {
 	config := sarama.NewConfig()
-    config.Consumer.Return.Errors = true
+	config.Consumer.Return.Errors = true
 	consumer, err := sarama.NewConsumer(Brokers, config)
+
+	if err != nil {
+		fmt.Printf("Kafka error: %s\n", err)
+		os.Exit(-1)
+	}
+
+	return consumer
+}
+
+func NewKafkaConsumerGroup(groupId string) sarama.ConsumerGroup {
+	config := sarama.NewConfig()
+	config.Consumer.Return.Errors = true
+	consumer, err := sarama.NewConsumerGroup(Brokers, groupId, config)
 
 	if err != nil {
 		fmt.Printf("Kafka error: %s\n", err)

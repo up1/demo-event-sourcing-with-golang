@@ -19,13 +19,10 @@ $docker compose ps
 $docker compose logs --follow
 ```
 
+Access to UI for Apache Kafka
+* http://localhost:8085
 
 ## Step 2 :: Start [Redis server](https://redis.io/download)
-
-Start from Docker
-```
-$docker container run -d -p 6379:6379 redis:alpine
-```
 
 Start from Docker compose
 ```
@@ -34,8 +31,12 @@ $docker compose ps
 ```
 
 ## Step 3 :: Start producer
+
+
 ```
-$go run cmd/main.go --act producer
+$docker compose up -d producer --build
+$docker container exec -it producer sh
+>go run cmd/main.go --act producer
 
 // Create new account = user1
 ->create###user1
@@ -58,6 +59,8 @@ Message: {Event:{AccId:201258f5-cd98-46a3-86fa-96379b096c4c Type:CreateEvent} Ac
 
 ## Step 4 :: Start consumer
 ```
-$go run cmd/main.go --act consumer
+$docker compose up -d consumer --build
+$docker container exec -it consumer sh
+>go run cmd/main.go --act consumer
 
 ```

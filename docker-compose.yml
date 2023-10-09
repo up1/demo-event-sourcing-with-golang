@@ -1,7 +1,24 @@
 version: '3'
 networks: 
     network-kafka: 
+
 services:
+    producer:
+      container_name: producer
+      build: .
+      stdin_open: true 
+      tty: true
+      networks:
+        - network-kafka
+    
+    consumer:
+      container_name: consumer
+      build: .
+      stdin_open: true 
+      tty: true
+      networks:
+        - network-kafka
+
     redis:
       image: redis:alpine
       ports:
@@ -28,7 +45,7 @@ services:
       environment:
         - KAFKA_BROKER_ID=1
         - KAFKA_LISTENERS=EXTERNAL_SAME_HOST://:29092,INTERNAL://:9092
-        - KAFKA_ADVERTISED_LISTENERS=INTERNAL://kafka:9092,EXTERNAL_SAME_HOST://localhost:29092
+        - KAFKA_ADVERTISED_LISTENERS=INTERNAL://kafka:9092,EXTERNAL_SAME_HOST://kafka:29092
         - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=INTERNAL:PLAINTEXT,EXTERNAL_SAME_HOST:PLAINTEXT
         - KAFKA_INTER_BROKER_LISTENER_NAME=INTERNAL
         - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
